@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 import jwt
 from fastapi import Depends, HTTPException, status
@@ -5,8 +7,9 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 import models
 from database import get_db
-SECRET_KEY = "efwbwrbgvrgwt4556578hegbyrthgbrt"  # In production, use a secure method to store this key
-ALGORITHM = "HS256"
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY", "fallback:32hrufikewfwvj")
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = 15
 IST = timezone(timedelta(hours=5, minutes=30))
 
