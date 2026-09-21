@@ -264,3 +264,7 @@ python -m pip install -r requirements.txt
 ### Username already exists
 
 Usernames are unique. Use another username or delete `meridian.db` for a fresh local demo database. Deleting the database removes all users, accounts, transactions, and loans.
+
+## Security Notes
+
+This project is intended for local development and demonstration. Before production use, add stronger password and input policies, database migrations, HTTPS, restricted CORS origins, secure secret management, refresh-token handling, rate limiting, audit logging, and transactional safeguards around money movement.

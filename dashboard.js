@@ -14,6 +14,30 @@ function setNote(el, message, kind) {
 }
 
 // ---------------------------------------------------------------
+// Dark Mode Toggle
+// ---------------------------------------------------------------
+const themeBtn = document.getElementById("theme-toggle-btn");
+
+function applyTheme(isDark) {
+  document.body.classList.toggle("dark", isDark);
+  if (themeBtn) {
+    themeBtn.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+  }
+}
+
+// Load initial theme choice from localStorage
+const savedTheme = localStorage.getItem("meridian_theme");
+applyTheme(savedTheme === "dark");
+
+if (themeBtn) {
+  themeBtn.addEventListener("click", () => {
+    const isDarkNow = !document.body.classList.contains("dark");
+    applyTheme(isDarkNow);
+    localStorage.setItem("meridian_theme", isDarkNow ? "dark" : "light");
+  });
+}
+
+// ---------------------------------------------------------------
 // Navigation
 // ---------------------------------------------------------------
 const navItems = document.querySelectorAll(".nav-item");
