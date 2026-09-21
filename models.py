@@ -23,6 +23,19 @@ class Transaction(Base):
     id = Column(Integer, primary_key=True, index=True)
     account_id = Column(Integer, ForeignKey("accounts.id"), nullable=False)
     amount = Column(Float, nullable=False)
-    transaction_type = Column(String, nullable=False)  # "DEPOSIT", "WITHDRAWAL", "TRANSFER"
+    transaction_type = Column(String, nullable=False)  # "DEPOSIT", "WITHDRAWAL", "TRANSFER", "LOAN_DISBURSEMENT", "EMI_PAYMENT"
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
     account = relationship("Account", back_populates="transactions")
+
+class Loan(Base):
+    __tablename__ = "loans"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    account_id = Column(Integer, ForeignKey("accounts.id"), nullable=False)
+    principal = Column(Float, nullable=False)
+    annual_rate = Column(Float, nullable=False)
+    tenure_months = Column(Integer, nullable=False)
+    emi_amount = Column(Float, nullable=False)
+    months_paid = Column(Integer, default=0)
+    status = Column(String, default="APPROVED")  # "APPROVED", "CLOSED", "REJECTED"
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
