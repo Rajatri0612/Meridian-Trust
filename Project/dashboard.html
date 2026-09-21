@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Trust &mdash; Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M12 2 2 7v2h20V7L12 2Z"/>
+        <path d="M4 10v9M9 10v9M15 10v9M20 10v9"/>
+        <path d="M2 21h20"/>
+      </svg>
+      <span>Meridian Trust</span>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Banking</div>
+      <button class="nav-item active" data-view="overview">Overview</button>
+      <button class="nav-item" data-view="deposit">Deposit</button>
+      <button class="nav-item" data-view="withdraw">Withdraw</button>
+      <button class="nav-item" data-view="transfer">Transfer</button>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Lending</div>
+      <button class="nav-item" data-view="loans">Loans &amp; EMI</button>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="who">Signed in as <strong id="who-username">&hellip;</strong></div>
+      <button class="btn btn-ghost btn-small" id="logout-btn" style="border-color: var(--panel-line); color: var(--muted);">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ===================== OVERVIEW ===================== -->
+    <section id="view-overview">
+      <div class="main-head">
+        <div>
+          <h1>Overview</h1>
+          <p>Your accounts and latest activity.</p>
+        </div>
+        <button class="btn btn-brass btn-small" id="open-account-btn">+ Open account</button>
+      </div>
+
+      <div class="panel">
+        <h3>Accounts</h3>
+        <div id="accounts-list"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Recent transactions</h3>
+        <div class="field" style="max-width: 260px;">
+          <label for="overview-account-select">Account</label>
+          <select id="overview-account-select"></select>
+        </div>
+        <table class="ledger-table">
+          <thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Amount</th></tr></thead>
+          <tbody id="overview-tx-body"></tbody>
+        </table>
+        <div class="empty-state hidden" id="overview-tx-empty">No transactions on this account yet.</div>
+      </div>
+    </section>
+
+    <!-- ===================== DEPOSIT ===================== -->
+    <section id="view-deposit" class="hidden">
+      <div class="main-head"><div><h1>Deposit</h1><p>Add funds to one of your accounts.</p></div></div>
+      <div class="panel" style="max-width: 420px;">
+        <form id="form-deposit">
+          <div class="field">
+            <label for="deposit-account">Account</label>
+            <select id="deposit-account" required></select>
+          </div>
+          <div class="field">
+            <label for="deposit-amount">Amount (&#8377;)</label>
+            <input id="deposit-amount" type="number" min="0.01" step="0.01" required>
+          </div>
+          <button class="btn btn-brass" type="submit">Deposit</button>
+          <div class="form-note" id="deposit-note"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== WITHDRAW ===================== -->
+    <section id="view-withdraw" class="hidden">
+      <div class="main-head"><div><h1>Withdraw</h1><p>Take funds out of one of your accounts.</p></div></div>
+      <div class="panel" style="max-width: 420px;">
+        <form id="form-withdraw">
+          <div class="field">
+            <label for="withdraw-account">Account</label>
+            <select id="withdraw-account" required></select>
+          </div>
+          <div class="field">
+            <label for="withdraw-amount">Amount (&#8377;)</label>
+            <input id="withdraw-amount" type="number" min="0.01" step="0.01" required>
+          </div>
+          <button class="btn btn-brass" type="submit">Withdraw</button>
+          <div class="form-note" id="withdraw-note"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== TRANSFER ===================== -->
+    <section id="view-transfer" class="hidden">
+      <div class="main-head"><div><h1>Transfer</h1><p>Move funds between accounts.</p></div></div>
+      <div class="panel" style="max-width: 460px;">
+        <form id="form-transfer">
+          <div class="field">
+            <label for="transfer-from">From account</label>
+            <select id="transfer-from" required></select>
+          </div>
+          <div class="field">
+            <label for="transfer-to">To account ID</label>
+            <input id="transfer-to" type="number" min="1" placeholder="e.g. 4" required>
+          </div>
+          <div class="field">
+            <label for="transfer-amount">Amount (&#8377;)</label>
+            <input id="transfer-amount" type="number" min="0.01" step="0.01" required>
+          </div>
+          <button class="btn btn-brass" type="submit">Transfer</button>
+          <div class="form-note" id="transfer-note"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== LOANS ===================== -->
+    <section id="view-loans" class="hidden">
+      <div class="main-head"><div><h1>Loans &amp; EMI</h1><p>Calculate, apply for, and repay loans.</p></div></div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>EMI calculator</h3>
+          <div class="field">
+            <label for="calc-principal">Principal (&#8377;)</label>
+            <input id="calc-principal" type="number" min="1" step="0.01" value="100000">
+          </div>
+          <div class="two-col-form">
+            <div class="field">
+              <label for="calc-rate">Annual interest (%)</label>
+              <input id="calc-rate" type="number" min="0.01" step="0.01" value="9.5">
+            </div>
+            <div class="field">
+              <label for="calc-tenure">Tenure (months)</label>
+              <input id="calc-tenure" type="number" min="1" step="1" value="24">
+            </div>
+          </div>
+          <button class="btn btn-ghost" type="button" id="calc-btn" style="border-color: var(--panel-line); color: var(--cream);">Calculate EMI</button>
+          <div id="calc-result" class="form-note"></div>
+        </div>
+
+        <div class="panel">
+          <h3>Apply for a loan</h3>
+          <form id="form-loan-apply">
+            <div class="field">
+              <label for="loan-account">Disburse to account</label>
+              <select id="loan-account" required></select>
+            </div>
+            <div class="field">
+              <label for="loan-principal">Principal (&#8377;)</label>
+              <input id="loan-principal" type="number" min="1" step="0.01" required>
+            </div>
+            <div class="two-col-form">
+              <div class="field">
+                <label for="loan-rate">Annual interest (%)</label>
+                <input id="loan-rate" type="number" min="0.01" step="0.01" required>
+              </div>
+              <div class="field">
+                <label for="loan-tenure">Tenure (months)</label>
+                <input id="loan-tenure" type="number" min="1" step="1" required>
+              </div>
+            </div>
+            <button class="btn btn-brass" type="submit">Apply</button>
+            <div class="form-note" id="loan-apply-note"></div>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Your loans</h3>
+        <div id="loans-list"></div>
+        <div class="empty-state hidden" id="loans-empty">No loans yet — apply above to get started.</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="api.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>
