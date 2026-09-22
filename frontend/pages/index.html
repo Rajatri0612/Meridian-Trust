@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Trust &mdash; Sign in</title>
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+
+<div class="auth-shell">
+  <div class="auth-hero">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M12 2 2 7v2h20V7L12 2Z"/>
+        <path d="M4 10v9M9 10v9M15 10v9M20 10v9"/>
+        <path d="M2 21h20"/>
+      </svg>
+      <span>Meridian Trust</span>
+    </div>
+
+    <div>
+      <h1>A ledger for<br>everything you hold.</h1>
+      <p>Accounts, transfers and loans, kept the way a bank has always kept them &mdash; precisely, and in your name.</p>
+    </div>
+
+    <div class="hero-ledger">
+      <div><span>24/7</span><small>Local access</small></div>
+      <div><span>0%</span><small>Hidden fees</small></div>
+      <div><span>&sect; 1</span><small>Branch, this machine</small></div>
+    </div>
+  </div>
+
+  <div class="auth-panel">
+    <a class="btn btn-ghost btn-small admin-entry" href="admin-login.html">Admin sign in</a>
+    <div class="ledger-card">
+      <div class="tabs">
+        <button type="button" id="tab-login" class="active">Sign in</button>
+        <a class="tab" href="account-opening.html">Open an account</a>
+      </div>
+
+      <div id="pane-login">
+        <h2>Welcome back</h2>
+        <p class="subtitle">Enter your details to access your accounts.</p>
+        <form id="form-login">
+          <div class="field">
+            <label for="login-username">Username</label>
+            <input id="login-username" type="text" autocomplete="username" required>
+          </div>
+          <div class="field">
+            <label for="login-password">Password</label>
+            <input id="login-password" type="password" autocomplete="current-password" required>
+          </div>
+          <button class="btn btn-brass" type="submit">Sign in</button>
+          <div class="form-note" id="login-note"></div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<button class="btn btn-ghost btn-small theme-control" id="theme-toggle-btn">🌙 Dark</button>
+
+<script src="../scripts/api.js"></script>
+<script src="../scripts/auth.js"></script>
+</body>
+</html>

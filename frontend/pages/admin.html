@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Trust &mdash; Admin</title>
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M12 2 2 7v2h20V7L12 2Z"/>
+        <path d="M4 10v9M9 10v9M15 10v9M20 10v9"/>
+        <path d="M2 21h20"/>
+      </svg>
+      <span>Meridian Trust</span>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Administration</div>
+      <a class="nav-item active" href="admin.html">Control room</a>
+      <a class="nav-item" href="dashboard.html">Customer dashboard</a>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="who">Admin session <strong id="admin-username">&hellip;</strong></div>
+      <button class="btn btn-ghost btn-small" id="logout-btn">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main admin-main">
+    <div class="main-head">
+      <div>
+        <h1>Control room</h1>
+        <p>Live view of customers, money movement, and lending.</p>
+      </div>
+      <button class="btn btn-brass btn-small" id="refresh-btn">Refresh data</button>
+    </div>
+
+    <div id="admin-note" class="form-note"></div>
+    <div id="admin-content" class="hidden">
+      <section class="admin-metrics" id="metrics-grid"></section>
+
+      <div class="admin-grid">
+        <section class="panel admin-table-panel">
+          <div class="section-head"><h3>Customers</h3><span class="section-count" id="users-count"></span></div>
+          <div class="table-scroll">
+            <table class="ledger-table">
+              <thead><tr><th>ID</th><th>Username</th><th>Accounts</th></tr></thead>
+              <tbody id="users-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel admin-table-panel">
+          <div class="section-head"><h3>Accounts</h3><span class="section-count" id="accounts-count"></span></div>
+          <div class="table-scroll">
+            <table class="ledger-table">
+              <thead><tr><th>Owner</th><th>Type</th><th>Balance</th></tr></thead>
+              <tbody id="accounts-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel admin-table-panel">
+        <div class="section-head"><h3>Loans</h3><span class="section-count" id="loans-count"></span></div>
+        <div class="table-scroll">
+          <table class="ledger-table">
+            <thead><tr><th>Loan</th><th>Customer</th><th>Principal</th><th>EMI</th><th>Progress</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="loans-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel admin-table-panel">
+        <div class="section-head"><h3>Recent activity</h3><span class="section-count">Latest 20 entries</span></div>
+        <div class="table-scroll">
+          <table class="ledger-table">
+            <thead><tr><th>When</th><th>Customer</th><th>Type</th><th>Account</th><th>Amount</th></tr></thead>
+            <tbody id="transactions-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<button class="btn btn-ghost btn-small theme-control" id="theme-toggle-btn">🌙 Dark</button>
+<script src="../scripts/api.js?v=2"></script>
+<script src="../scripts/admin.js?v=2"></script>
+</body>
+</html>
