@@ -182,6 +182,14 @@ def transfer(
 # ---------------------------------------------------------------
 # Loans
 # ---------------------------------------------------------------
+def _loan_annual_rate(principal: float) -> float:
+    if principal <= 50000:
+        return 12.0
+    if principal <= 200000:
+        return 10.0
+    return 8.0
+
+
 def _calculate_emi(principal: float, annual_rate: float, tenure_months: int) -> float:
     monthly_rate = annual_rate / 12 / 100
     if monthly_rate == 0:
@@ -202,13 +210,14 @@ def apply_loan(
     db: Session = Depends(get_db),
 ):
     account = _get_owned_account(payload.account_id, current_user, db)
-    emi = _calculate_emi(payload.principal, payload.annual_rate, payload.tenure_months)
+    annual_rate = _loan_annual_rate(payload.principal)
+    emi = _calculate_emi(payload.principal, annual_rate, payload.tenure_months)
 
     loan = models.Loan(
         user_id=current_user.id,
         account_id=account.id,
         principal=payload.principal,
-        annual_rate=payload.annual_rate,
+        annual_rate=annual_rate,
         tenure_months=payload.tenure_months,
         emi_amount=emi,
         months_paid=0,

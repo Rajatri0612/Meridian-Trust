@@ -114,13 +114,12 @@ const Api = {
   getLoans() {
     return request("/loans", { auth: true });
   },
-  applyLoan(accountId, principal, annualRate, tenureMonths) {
+  applyLoan(accountId, principal, tenureMonths) {
     return request("/loans/apply", {
       method: "POST",
       body: {
         account_id: Number(accountId),
         principal,
-        annual_rate: annualRate,
         tenure_months: tenureMonths,
       },
       auth: true,

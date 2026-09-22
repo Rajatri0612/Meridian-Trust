@@ -81,7 +81,7 @@
           </div>
           <div class="field">
             <label for="deposit-amount">Amount (&#8377;)</label>
-            <input id="deposit-amount" type="number" min="0.01" step="0.01" required>
+            <input id="deposit-amount" type="text" inputmode="decimal" required>
           </div>
           <button class="btn btn-brass" type="submit">Deposit</button>
           <div class="form-note" id="deposit-note"></div>
@@ -100,7 +100,7 @@
           </div>
           <div class="field">
             <label for="withdraw-amount">Amount (&#8377;)</label>
-            <input id="withdraw-amount" type="number" min="0.01" step="0.01" required>
+            <input id="withdraw-amount" type="text" inputmode="decimal" required>
           </div>
           <button class="btn btn-brass" type="submit">Withdraw</button>
           <div class="form-note" id="withdraw-note"></div>
@@ -123,7 +123,7 @@
           </div>
           <div class="field">
             <label for="transfer-amount">Amount (&#8377;)</label>
-            <input id="transfer-amount" type="number" min="0.01" step="0.01" required>
+            <input id="transfer-amount" type="text" inputmode="decimal" required>
           </div>
           <button class="btn btn-brass" type="submit">Transfer</button>
           <div class="form-note" id="transfer-note"></div>
@@ -140,12 +140,12 @@
           <h3>EMI calculator</h3>
           <div class="field">
             <label for="calc-principal">Principal (&#8377;)</label>
-            <input id="calc-principal" type="number" min="1" step="0.01" value="100000">
+            <input id="calc-principal" type="text" inputmode="decimal" value="100,000">
           </div>
           <div class="two-col-form">
             <div class="field">
-              <label for="calc-rate">Annual interest (%)</label>
-              <input id="calc-rate" type="number" min="0.01" step="0.01" value="9.5">
+              <label for="calc-interest">Estimated interest</label>
+              <output id="calc-interest" class="form-output">Calculated from principal</output>
             </div>
             <div class="field">
               <label for="calc-tenure">Tenure (months)</label>
@@ -165,12 +165,12 @@
             </div>
             <div class="field">
               <label for="loan-principal">Principal (&#8377;)</label>
-              <input id="loan-principal" type="number" min="1" step="0.01" required>
+              <input id="loan-principal" type="text" inputmode="decimal" required>
             </div>
             <div class="two-col-form">
               <div class="field">
-                <label for="loan-rate">Annual interest (%)</label>
-                <input id="loan-rate" type="number" min="0.01" step="0.01" required>
+                <label for="loan-interest">Interest amount</label>
+                <output id="loan-interest" class="form-output">Calculated from principal</output>
               </div>
               <div class="field">
                 <label for="loan-tenure">Tenure (months)</label>

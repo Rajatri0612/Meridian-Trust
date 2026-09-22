@@ -13,7 +13,7 @@ The project has a static frontend and a FastAPI backend. Data is stored in a loc
 - Deposits and withdrawals with positive-amount validation
 - Transfers between accounts
 - Loan EMI calculator
-- Loan applications with immediate demo disbursement
+- Loan applications with principal-based interest pricing and immediate demo disbursement
 - EMI payments and loan status tracking
 
 ## Project Structure
@@ -210,10 +210,11 @@ Example loan request:
 {
   "account_id": 1,
   "principal": 100000,
-  "annual_rate": 10.5,
   "tenure_months": 24
 }
 ```
+
+The annual rate is set automatically from the principal: 12% for loans up to ₹50,000, 10% for loans up to ₹200,000, and 8% above ₹200,000.
 
 ## Database and Configuration
 

@@ -8,9 +8,46 @@ function rupee(n) {
   return "₹" + Number(n).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+function numericInputValue(input) {
+  return parseFloat(input.value.replace(/,/g, ""));
+}
+
+function formatNumberInput(input) {
+  const rawValue = input.value.replace(/,/g, "");
+  const [wholePart, decimalPart] = rawValue.split(".");
+  if (!/^\d*$/.test(wholePart) || (decimalPart !== undefined && !/^\d*$/.test(decimalPart))) {
+    return;
+  }
+  const normalizedWhole = wholePart.replace(/^0+(?=\d)/, "");
+  const formattedWhole = normalizedWhole
+    ? Number(normalizedWhole).toLocaleString("en-IN", { maximumFractionDigits: 0 })
+    : "";
+  input.value = decimalPart === undefined ? formattedWhole : `${formattedWhole}.${decimalPart}`;
+}
+
+document.querySelectorAll("#deposit-amount, #withdraw-amount, #transfer-amount, #calc-principal, #loan-principal")
+  .forEach((input) => {
+    input.addEventListener("input", () => formatNumberInput(input));
+    input.addEventListener("blur", () => formatNumberInput(input));
+  });
+
 function setNote(el, message, kind) {
   el.textContent = message || "";
   el.className = "form-note" + (kind ? ` ${kind}` : "");
+}
+
+function loanRateForPrincipal(principal) {
+  if (principal <= 50000) return 12;
+  if (principal <= 200000) return 10;
+  return 8;
+}
+
+function calculateLoanTerms(principal, tenure) {
+  const annualRate = loanRateForPrincipal(principal);
+  const monthlyRate = annualRate / 12 / 100;
+  const factor = (1 + monthlyRate) ** tenure;
+  const emi = principal * monthlyRate * factor / (factor - 1);
+  return { annualRate, interest: emi * tenure - principal, emi };
 }
 
 // ---------------------------------------------------------------
@@ -174,7 +211,7 @@ document.getElementById("form-deposit").addEventListener("submit", async (e) => 
   e.preventDefault();
   const note = document.getElementById("deposit-note");
   const accountId = document.getElementById("deposit-account").value;
-  const amount = parseFloat(document.getElementById("deposit-amount").value);
+  const amount = numericInputValue(document.getElementById("deposit-amount"));
   const button = e.target.querySelector("button");
   button.disabled = true;
   try {
@@ -193,7 +230,7 @@ document.getElementById("form-withdraw").addEventListener("submit", async (e) =>
   e.preventDefault();
   const note = document.getElementById("withdraw-note");
   const accountId = document.getElementById("withdraw-account").value;
-  const amount = parseFloat(document.getElementById("withdraw-amount").value);
+  const amount = numericInputValue(document.getElementById("withdraw-amount"));
   const button = e.target.querySelector("button");
   button.disabled = true;
   try {
@@ -213,7 +250,7 @@ document.getElementById("form-transfer").addEventListener("submit", async (e) =>
   const note = document.getElementById("transfer-note");
   const fromId = document.getElementById("transfer-from").value;
   const toId = document.getElementById("transfer-to").value;
-  const amount = parseFloat(document.getElementById("transfer-amount").value);
+  const amount = numericInputValue(document.getElementById("transfer-amount"));
   const button = e.target.querySelector("button");
   button.disabled = true;
   try {
@@ -239,21 +276,21 @@ function calculateEmi(principal, annualRate, tenureMonths) {
 }
 
 document.getElementById("calc-btn").addEventListener("click", () => {
-  const principal = parseFloat(document.getElementById("calc-principal").value) || 0;
-  const rate = parseFloat(document.getElementById("calc-rate").value) || 0;
+  const principal = numericInputValue(document.getElementById("calc-principal")) || 0;
   const tenure = parseInt(document.getElementById("calc-tenure").value, 10) || 0;
   const result = document.getElementById("calc-result");
 
-  if (principal <= 0 || rate <= 0 || tenure <= 0) {
-    setNote(result, "Enter a principal, rate and tenure to calculate.", "error");
+  if (principal <= 0 || tenure <= 0) {
+    setNote(result, "Enter a principal and tenure to calculate.", "error");
     return;
   }
 
-  const emi = calculateEmi(principal, rate, tenure);
+  const terms = calculateLoanTerms(principal, tenure);
+  const emi = terms.emi;
   const total = emi * tenure;
   setNote(
     result,
-    `EMI: ${rupee(emi)} / month · Total payable: ${rupee(total)} · Total interest: ${rupee(total - principal)}`
+    `Rate: ${terms.annualRate}% p.a. · EMI: ${rupee(emi)} / month · Total payable: ${rupee(total)} · Total interest: ${rupee(total - principal)}`
   );
 });
 
@@ -261,13 +298,12 @@ document.getElementById("form-loan-apply").addEventListener("submit", async (e) 
   e.preventDefault();
   const note = document.getElementById("loan-apply-note");
   const accountId = document.getElementById("loan-account").value;
-  const principal = parseFloat(document.getElementById("loan-principal").value);
-  const rate = parseFloat(document.getElementById("loan-rate").value);
+  const principal = numericInputValue(document.getElementById("loan-principal"));
   const tenure = parseInt(document.getElementById("loan-tenure").value, 10);
   const button = e.target.querySelector("button");
   button.disabled = true;
   try {
-    await Api.applyLoan(accountId, principal, rate, tenure);
+    await Api.applyLoan(accountId, principal, tenure);
     setNote(note, "Loan approved and disbursed.", "success");
     e.target.reset();
     await loadAccounts();
@@ -278,6 +314,31 @@ document.getElementById("form-loan-apply").addEventListener("submit", async (e) 
     button.disabled = false;
   }
 });
+
+function updateLoanEstimate(principalId, tenureId, interestId) {
+  const principal = numericInputValue(document.getElementById(principalId));
+  const tenure = parseInt(document.getElementById(tenureId).value, 10);
+  const output = document.getElementById(interestId);
+  if (!Number.isFinite(principal) || principal <= 0 || !Number.isFinite(tenure) || tenure <= 0) {
+    output.textContent = "Calculated from principal";
+    return;
+  }
+  const terms = calculateLoanTerms(principal, tenure);
+  output.textContent = `${rupee(terms.interest)} at ${terms.annualRate}% p.a.`;
+}
+
+document.getElementById("calc-principal").addEventListener("input", () =>
+  updateLoanEstimate("calc-principal", "calc-tenure", "calc-interest")
+);
+document.getElementById("calc-tenure").addEventListener("input", () =>
+  updateLoanEstimate("calc-principal", "calc-tenure", "calc-interest")
+);
+document.getElementById("loan-principal").addEventListener("input", () =>
+  updateLoanEstimate("loan-principal", "loan-tenure", "loan-interest")
+);
+document.getElementById("loan-tenure").addEventListener("input", () =>
+  updateLoanEstimate("loan-principal", "loan-tenure", "loan-interest")
+);
 
 function statusPillClass(status) {
   return { APPROVED: "approved", CLOSED: "closed", REJECTED: "rejected", PENDING: "pending" }[status] || "pending";

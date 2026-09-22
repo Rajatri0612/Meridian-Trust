@@ -48,7 +48,6 @@ class TransferRequest(BaseModel):
 class LoanApplyRequest(BaseModel):
     account_id: int
     principal: float = Field(gt=0, description="Loan principal must be greater than zero")
-    annual_rate: float = Field(gt=0, description="Annual interest rate must be greater than zero")
     tenure_months: int = Field(gt=0, description="Tenure must be at least one month")
 
 class LoanOut(BaseModel):
