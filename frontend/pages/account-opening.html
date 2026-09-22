@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Trust &mdash; Open an account</title>
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="auth-shell account-opening-shell home-shell">
+  <div class="auth-hero">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M12 2 2 7v2h20V7L12 2Z"/>
+        <path d="M4 10v9M9 10v9M15 10v9M20 10v9"/>
+        <path d="M2 21h20"/>
+      </svg>
+      <span>Meridian Trust</span>
+    </div>
+    <div class="hero-copy">
+      <p class="eyebrow">A considered beginning</p>
+      <h1>A proper account<br>starts with you.</h1>
+      <p>Tell us who you are, choose your account, and create secure access to your new banking home.</p>
+    </div>
+    <div class="hero-ledger">
+      <div><span>2 min</span><small>Simple application</small></div>
+      <div><span>₹ 0</span><small>Opening balance</small></div>
+    </div>
+    <div class="hero-note"><span>MT / 2024</span><span>Private banking for everyday life</span></div>
+  </div>
+
+  <div class="auth-panel account-opening-panel">
+    <div class="auth-panel-head">
+      <span>New member</span>
+      <a href="index.html">Back to sign in <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="ledger-card account-opening-card">
+      <p class="card-kicker">Start with the essentials</p>
+      <h2>Open an account</h2>
+      <p class="subtitle">Your details help us set up the right account for you.</p>
+      <form id="form-account-opening">
+        <div class="two-col-form">
+          <div class="field">
+            <label for="first-name">First name</label>
+            <input id="first-name" type="text" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="last-name">Last name</label>
+            <input id="last-name" type="text" autocomplete="family-name" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input id="phone" type="tel" autocomplete="tel" required minlength="7">
+        </div>
+        <div class="field">
+          <label for="address">Address</label>
+          <textarea id="address" autocomplete="street-address" required minlength="5"></textarea>
+        </div>
+        <div class="two-col-form">
+          <div class="field">
+            <label for="account-type">Account type</label>
+            <select id="account-type" required>
+              <option value="Savings">Savings</option>
+              <option value="Current">Current</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="username">Username</label>
+            <input id="username" type="text" autocomplete="username" required minlength="3">
+          </div>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="new-password" required minlength="6">
+        </div>
+        <button class="btn btn-brass" type="submit">Submit application</button>
+        <div class="form-note" id="account-opening-note"></div>
+      </form>
+    </div>
+  </div>
+</div>
+<button class="btn btn-ghost btn-small theme-control" id="theme-toggle-btn">🌙 Dark</button>
+<script src="../scripts/api.js?v=4"></script>
+<script src="../scripts/account-opening.js?v=1"></script>
+</body>
+</html>
