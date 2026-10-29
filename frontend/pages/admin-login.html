@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Trust &mdash; Admin sign in</title>
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="auth-shell home-shell">
+  <div class="auth-hero">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M12 2 2 7v2h20V7L12 2Z"/>
+        <path d="M4 10v9M9 10v9M15 10v9M20 10v9"/>
+        <path d="M2 21h20"/>
+      </svg>
+      <span>Meridian Trust</span>
+    </div>
+    <div class="hero-copy">
+      <p class="eyebrow">Operations, kept in order</p>
+      <h1>The ledger,<br>under watch.</h1>
+      <p>Secure access for the people responsible for keeping every account and movement in order.</p>
+    </div>
+    <div class="hero-ledger">
+      <div><span>LIVE</span><small>Operations view</small></div>
+      <div><span>24/7</span><small>Protected access</small></div>
+    </div>
+    <div class="hero-note"><span>MT / ADMIN</span><span>Private operations access</span></div>
+  </div>
+
+  <div class="auth-panel">
+    <div class="auth-panel-head">
+      <span>Administrator access</span>
+      <a href="index.html">Customer sign in <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="ledger-card">
+      <p class="card-kicker">Restricted entry</p>
+      <h2>Admin sign in</h2>
+      <p class="subtitle">Use your separate administrator credentials.</p>
+      <form id="form-admin-login">
+        <div class="field">
+          <label for="admin-username-input">Admin username</label>
+          <input id="admin-username-input" type="text" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="admin-password-input">Admin password</label>
+          <input id="admin-password-input" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-brass" type="submit">Enter control room</button>
+        <div class="form-note" id="admin-login-note"></div>
+      </form>
+    </div>
+  </div>
+</div>
+<button class="btn btn-ghost btn-small theme-control" id="theme-toggle-btn">🌙 Dark</button>
+<script src="../scripts/api.js?v=3"></script>
+<script src="../scripts/admin-login.js?v=1"></script>
+</body>
+</html>
